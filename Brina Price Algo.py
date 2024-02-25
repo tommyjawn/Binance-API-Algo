@@ -1,9 +1,4 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# # Binance API Algorithm
-
-# In[1]:
+# Binance API Algorithm
 
 
 # Sources
@@ -13,18 +8,12 @@
 # https://bit.ly/49dBqmw
 
 
-# In[3]:
-
-
 # see Binance API: https://bit.ly/48jkoCf & https://bit.ly/49dBqmw
 
 import websocket
 import json
 import pandas as pd
 from binance.client import Client
-
-
-# In[4]:
 
 
 client = Client(tld="us")
@@ -39,9 +28,6 @@ pairs = [n.lower() + "@kline_5m" for n in pairs]
 list_pairs = "/".join(pairs)
 
 
-# In[5]:
-
-
 # Function 2: Convert client streams to dataframe
 
 def manipulate (data):
@@ -51,9 +37,6 @@ def manipulate (data):
     event_time = pd.to_datetime([data["data"]["E"]], unit="ms")
     df = pd.DataFrame([[price, sym]], index=event_time)
     return df
-
-
-# In[6]:
 
 
 # Function 1: Websocket client
@@ -70,15 +53,9 @@ wsapp = websocket.WebSocketApp(socket, on_message=on_message)
 wsapp.run_forever()
 
 
-# In[7]:
-
-
 df = pd.read_csv("Pair-Prices.csv", header=None)
 
 df.columns = ["Timestamp", "Price", "Pair"]
-
-
-# In[8]:
 
 
 # access single column
@@ -91,19 +68,10 @@ btc_usdt = btc_usdt.sort_values("Timestamp")
 btc_usdt = btc_usdt.set_index("Timestamp")
 
 
-# In[9]:
-
-
 btc_usdt
 
 
-# In[251]:
-
-
 btc_usdt.set_index("Timestamp").Price.plot()
-
-
-# In[252]:
 
 
 # Function #3 - access price changes of each Pair
@@ -118,13 +86,7 @@ def analyze(Pair):
     return frame * 100
 
 
-# In[253]:
-
-
 analyze("BTCUSDT")
-
-
-# In[254]:
 
 
 # access all data from "Pairs" column, placed in array format
@@ -139,33 +101,12 @@ for Pair in uq:
     returns.append(analyze(Pair))
 
 
-# In[255]:
-
-
 #returns
-
-
-# In[256]:
 
 
 #pd.Series creates a column-like structure, using "index" values name for each row
 series = pd.Series(returns, index = uq)
 
 
-# In[257]:
-
-
 series
-
-
-# In[258]:
-
-
-series.nsmallest(5)
-
-
-# In[ ]:
-
-
-
 
