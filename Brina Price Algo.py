@@ -1,9 +1,4 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# # Binance API Algorithm
-
-# In[57]:
+# Binance API Algorithm
 
 
 # Sources
@@ -13,16 +8,11 @@
 # https://bit.ly/49dBqmw
 
 
-# In[58]:
-
-
 import websocket
 import json
 import pandas as pd
 from binance.client import Client
 
-
-# In[59]:
 
 
 client = Client(tld="us")
@@ -37,8 +27,6 @@ pairs = [n.lower() + "@kline_5m" for n in pairs]
 list_pairs = "/".join(pairs)
 
 
-# In[60]:
-
 
 # Function 2: Convert client streams to dataframe
 
@@ -49,9 +37,6 @@ def manipulate (data):
     event_time = pd.to_datetime([data["data"]["E"]], unit="ms")
     df = pd.DataFrame([[price, sym]], index=event_time)
     return df
-
-
-# In[61]:
 
 
 # Function 1: Websocket client
@@ -68,15 +53,11 @@ wsapp = websocket.WebSocketApp(socket, on_message=on_message)
 wsapp.run_forever()
 
 
-# In[62]:
-
 
 df = pd.read_csv("Pair-Prices.csv", header=None)
 
 df.columns = ["Timestamp", "Price", "Pair"]
 
-
-# In[86]:
 
 
 # access single column
@@ -87,21 +68,8 @@ col = col.sort_values("Timestamp")
 
 # set index to column values
 col = col.set_index("Timestamp")
-
-
-# In[87]:
-
-
-#df
-
-
-# In[88]:
-
-
 col.Price.plot()
 
-
-# In[74]:
 
 
 # Function #3 - access price changes of each Pair
@@ -116,13 +84,7 @@ def analyze(Pair):
     return frame * 100
 
 
-# In[85]:
-
-
 analyze("RNDRUSDT")
-
-
-# In[76]:
 
 
 # access all data from "Pairs" column, placed in array format
@@ -137,33 +99,10 @@ for Pair in uq:
     returns.append(analyze(Pair))
 
 
-# In[81]:
-
-
-returns
-
-
-# In[53]:
-
-
 # pd.Series creates a column-like structure, using "index" values name for each row
 series = pd.Series(returns, index = uq)
 
-
-# In[82]:
-
-
 series
-
-
-# In[83]:
-
-
 series.nlargest(5)
-
-
-# In[84]:
-
-
 series.nsmallest(5)
 
