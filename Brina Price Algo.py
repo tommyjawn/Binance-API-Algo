@@ -8,8 +8,6 @@
 # https://bit.ly/49dBqmw
 
 
-# see Binance API: https://bit.ly/48jkoCf & https://bit.ly/49dBqmw
-
 import websocket
 import json
 import pandas as pd
