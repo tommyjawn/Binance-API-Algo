@@ -1,8 +1,7 @@
 # Binance API Algorithm
 
 
-# Sources
-
+# Sources:
 # https://bit.ly/42HLG4a
 # https://bit.ly/48jkoCf
 # https://bit.ly/49dBqmw
